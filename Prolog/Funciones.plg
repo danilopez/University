@@ -1,0 +1,103 @@
+% Tema 1 - Introduccion
+
+ordenar(Xs, [A,B,C]) :-
+	member(A,Xs), member(B,Xs), member(C,Xs),
+	A < B, B < C
+.
+
+descomponer(X,A,B) :-
+	between(0,X,A), A mod 2 =:= 0,
+	between(0,X,B), B mod 2 =:= 0,
+	X =:= A+B
+.
+
+descomponer_det(X,A,B) :-
+	between(0,X,A), A mod 2 =:= 0,
+	B is X-A, B mod 2 =:= 0  % B determinado
+.
+
+partir(Ls,As,Bs) :-
+	append(As,Bs,Ls),
+	last(As,Ult),
+	memberchk(Ult,Bs)
+.
+
+cabreros(A,B) :-
+	between(1,10,A),
+	between(1,10,B),
+	B - 1 =:= A + 1,
+	2 * (A - 1) =:= B + 1
+.
+
+% Ejercicios Tema 1
+pitagoras(N,X,Y,Z) :-
+	between(1,N,X),
+	between(1,N,Y),
+	between(1,N,Z),
+	X*X + Y*Y =:= Z*Z
+.
+
+raiz(N,R) :-
+	Cuad is N*N,
+	Sig is (N+1)*(N+1)-1,
+	between(Cuad,Sig,R)
+.
+
+edad(X) :-
+	between(1900,2000,X),
+	2000 - X =:= X mod 10 + (X div 10) mod 10 + (X div 100) mod 10 + (X div 1000) mod 10
+.
+
+padrehijo(P,H) :-
+	between(1,100,P),
+	between(1,100,H),
+	3*H =:= P,
+	(H-5)*4 =:= (P-5)
+.
+
+preso(X) :-
+	between(1,100,X),
+	(25+X)*2 =:= 54+X
+.
+
+partir(Ls,As,Bs,Cs) :-
+% TODO
+.
+
+%%%%%%%%%%%%%%%%%%%
+%     TEMA 2      %
+%%%%%%%%%%%%%%%%%%%
+
+es_natural(c).
+es_natural(s(X)) :- es_natural(X).
+
+es_par(c).
+es_par(s(s(X))) :- es_par(X).
+es_impar(s(c)).
+es_impar(s(s(X))) :- es_impar(X).
+
+suma(c,Y,Y) :- es_natural(Y).
+suma(s(X),Y,s(Z)) :- suma(X,Y,Z).
+
+iguales(c,c).
+iguales(s(X),s(Y)) :-
+	es_natural(X),
+	es_natural(Y),
+	iguales(X,Y).
+
+% menor(?X,?Y) -- X < Y
+menor(c,s(Y)) :- es_natural(Y).
+menor(s(X),s(Y)) :- 
+	es_natural(X),
+	menor(X,Y).
+
+% menor_igual(?X,?Y) -- X <= Y
+menor_igual(c,Y) :- es_natural(Y).
+menor_igual(s(X),s(Y)) :- 
+	es_natural(X),
+	menor_igual(X,Y).
+
+% minimo(?X,?Y,?Z) -- Z = min(X,Y)
+minimo(X,Y,X) :- menor_igual(X,Y).
+minimo(X,Y,Y) :- menor(Y,X).
+
