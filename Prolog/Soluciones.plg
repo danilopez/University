@@ -1,0 +1,488 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Programacion Declarativa
+%% Programacion Logica
+%% Tema 2. Tecnicas basicas de programacion Prolog
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 1. Programacion recursiva 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Patron de disen~o de predicado recursivo
+%
+% resolver/2 - resolver(Problema,Solucion)
+%
+% CASO BASE:
+%
+%    resolver(ProblemaBase,Solucion) :- condiciones.
+%
+% CASO RECURSIVO:
+%
+%    resolver(Problema,Solucion) :-
+%         reducir(Problema, ProblemaReducido),
+%         resolver(ProblemaReducido, SolucionReducida),
+%         componer(Problema, SolucionReducida,Solucion).
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+% es_natural(?X) - X es un natural bien formado
+% definicion de dominio o tipo
+
+es_natural(c).
+es_natural(s(X)):- es_natural(X).
+
+% conversion de notacion decimal a notacion de peano
+% y viceversa
+
+% dec_a_peano(+N,?X)
+% conversion de notacion decimal a Peano
+% ?- dec_a_peano(5,X).
+% X = s(s(s(s(s(c))))) ;
+% No
+
+dec_a_peano(0,c).
+dec_a_peano(N,s(X)) :-
+	N > 0,
+	M is N-1,
+	dec_a_peano(M,X).
+
+% peano_a_dec(+X,?N)
+% conversion de notacion de peano a decimal
+% ?- peano_a_dec(s(s(s(c))), N).
+% N = 3 ;
+% No
+
+peano_a_dec(c,0).
+peano_a_dec(s(X),N) :-
+	peano_a_dec(X,M),
+	N is M+1.
+
+% ejemplo de uso de conversion de notaciones
+% :- dec_a_peano(5,A), dec_a_peano(6,B), suma(A,B,C), peano_a_dec(C,_S).
+
+% es_par(?X) - X es par
+
+es_par(c).
+es_par(s(s(X))) :- es_par(X).
+
+% es_impar(?X) - X es impar
+
+es_impar(s(c)).
+es_impar(s(s(X))) :- es_impar(X).
+
+% suma(?X,?Y,?Z) - Z = X+Y
+
+suma(c,Y,Y) :- es_natural(Y).
+suma(s(X),Y,s(Z)) :- suma(X,Y,Z).
+
+% iguales(?X,?Y) - X = Y
+
+iguales(c,c).
+iguales(s(X),s(Y)) :- iguales(X,Y).
+
+% menor(?X,?Y) - X < Y
+
+menor(c,s(Y)) :- es_natural(Y).
+menor(s(X),s(Y)) :- menor(X,Y).
+
+% menor_igual(?X,?Y) - X <= Y
+
+menor_igual(c,Y):- es_natural(Y).
+menor_igual(s(X),s(Y)) :- menor_igual(X,Y).
+
+% minimo(?X,?Y,?Z) - Z = min(X,Y)
+
+minimo(X,Y,X) :- menor_igual(X,Y).
+minimo(X,Y,Y) :- menor(Y,X).
+
+% minimo_rec(?X,?Y,?Z) - Z = min(X,Y)
+
+minimo_rec(c,Y,c) :- es_natural(Y).
+minimo_rec(s(X),c,c) :- es_natural(X).
+minimo_rec(s(X),s(Y),s(Z)) :- minimo_rec(X,Y,Z).
+
+% producto(+X,?Y,?Z) - Z = X*Y
+
+producto(X,c,c) :- es_natural(X).
+producto(X,s(Y),Z) :-
+	producto(X,Y,T),
+	suma(X,T,Z).
+
+% exp(+X,?Y,?Z) - Z = X^Y
+
+exp(c,s(Y),c) :- es_natural(Y).
+
+exp(s(X),c,s(c)) :- es_natural(X).
+exp(s(X),s(Y),Z) :-
+	exp(s(X),Y,T),
+	producto(s(X),T,Z).
+
+% mod(+X,+Y,?Z) - Z = X mod Y
+
+mod(X,s(Y),X) :- menor(X,s(Y)).
+mod(X,s(Y),Z) :-
+	suma(s(Y),T,X),
+	mod(T,s(Y),Z).
+
+% mcd(?X,?Y,?Z) - Z = mcd(X,Y)
+
+mcd(s(X),c,s(X)).
+mcd(X,Y,Z) :-
+	mod(X,Y,T),
+	mcd(Y,T,Z).
+
+% factorial(?X,?Y) - Y= X!
+
+factorial(c,s(c)).
+factorial(s(X),F) :-
+	factorial(X,T),
+	producto(s(X),T,F).
+
+% entre(?X,?Y,?Z) - X <= Z <= Y
+
+entre(I,J,I) :- menor_igual(I,J).
+entre(I,J,K) :-
+	menor(I,J),
+	entre(s(I),J,K).
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 2. Recursion de cola y predicados iterativos
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Patron de disen~o de predicado recursivo de cola (con acumulador)
+%
+% resolver/2 - resolver(Problema,Solucion)
+%
+% INTERFAZ:
+%
+%    resolver(Problema,Solucion) :-
+%          resolver_cola(Problema,SolucionBase,Solucion).
+%
+% resolver_cola/3 - resolver_cola(Problema,Acumulador,Solucion)
+%
+% CASO BASE:
+%
+%    resolver_cola(Problema,Solucion,Solucion) :-
+%          condiciones.
+%
+% CASO RECURSIVO:
+%
+%    resolver_cola(Problema,Acumulador,Solucion) :-
+%          reducir(Problema,ProblemaReducido),
+%          actualizar(Problema,Acumulador,NuevoAcumulador),
+%          resolver_cola(ProblemaReducido,NuevoAcumulador,Solucion).
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% p1/0
+% no iterativo: q(X) tiene respuestas multiples
+
+p1:- q1(_X), p1.
+
+q1(a).
+q1(b).
+
+% p2/0
+% no iterativo: p2 tiene alternativas
+
+p2 :- q2, p2.
+p2 :- r2, p2.
+
+q2.
+r2.
+
+% p3/0
+% iterativo: recursion infinita sin desbordar la pila
+
+p3 :- q3(a), p3.
+
+q3(a).
+q3(b).
+
+% p4/0
+% iterativo: la optimizacion se aplica en tiempo de ejecucion
+
+p4(X) :- q4(X), p4(X).
+
+q4(a).
+q4(b).
+
+% fact(+X,?Y) - Y = X!
+
+fact(N,F) :- fact_iter(N,s(c),F).
+
+% fact_iter(+X,+Ac,?Sol)
+
+fact_iter(c,F,F) :- es_natural(F).
+fact_iter(s(N),Acum,F) :-
+	prod(s(N),Acum,NAcum),
+	fact_iter(N,NAcum,F).
+
+% prod(+X,+Y,?Z) - Z = X*Y
+
+prod(X,Y,Z) :- prod_iter(X,Y,c,Z).
+
+% prod_iter(+X,+Y,+Ac,?Z) 
+
+prod_iter(c,_Y,Z,Z).
+prod_iter(s(X),Y,Ac,Z) :-
+	suma(Y,Ac,NAc),
+	prod_iter(X,Y,NAc,Z).
+
+% exponente(+X,+Y,?Z) - Z = X^Y
+
+exponente(c,s(Y),c) :- es_natural(Y).
+
+exponente(s(X),Y,Z) :-
+	exponente_iter(s(X),Y,s(c),Z).
+
+% exponente_iter(+X,+Y,+Ac,?Z)
+
+exponente_iter(_,c,Sol,Sol).
+exponente_iter(X,s(Y),Ac,Sol) :-
+	producto(X,Ac,NAc),
+	exponente_iter(X,Y,NAc,Sol).
+
+% fib(+X,?Y) - Y es el X-simo fibonacci
+
+fib(X,Y) :- fib_iter(X,c,s(c),Y).
+
+% fib_iter(+X,+Ac1,+Ac2,?Y)
+
+fib_iter(c,Sol,_,Sol).
+fib_iter(s(c),_,Sol,Sol).
+fib_iter(s(s(X)),Ac1,Ac2,Sol) :-
+	suma(Ac1,Ac2,Ac3),
+	fib_iter(s(X),Ac2,Ac3,Sol).
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 3. El paradigma generar/comprobar
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Patron de disen~o generar/comprobar
+%
+% resolver/2
+%
+%    resolver(Problema,Solucion) :-
+%          generar(Problema,Solucion),     % generar
+%          comprobar(Problema,Solucion).   % comprobar (test)
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% PROBLEMA 1: descomposicion de un numero en suma de pares
+
+% en_pares(+N,?X,?Y) - N = X+Y, X e Y son pares
+
+% primera solucion (erronea)
+
+en_pares1(N,X,Y) :-
+           es_par(X),         % generador no acotado
+           es_par(Y),         % generador no acotado
+           suma(X,Y,N).       % comprobacion
+
+% segunda solucion
+
+en_pares2(N,X,Y) :-
+           menor_igual(X,N),  % generador acotado
+           menor_igual(Y,N),  % generador acotado
+           suma(X,Y,N),       % comprobacion
+           es_par(X),
+           es_par(Y).
+
+% tercera solucion
+
+en_pares3(N,X,Y) :-
+           menor_igual(X,N),  % generador acotado
+           es_par(X),         % comprobacion
+           suma(X,Y,N),       % generador unico
+           es_par(Y).         % comprobacion
+
+% cuarta solucion
+
+en_pares4(N,X,Y) :-
+	   suma(X,Y,N),       % generador acotado
+	   es_par(X),         % comprobacion
+	   es_par(Y).
+
+% quinta solucion
+
+en_pares5(N,X,Y) :-
+           es_par(N),         % comprobacion
+	   suma(X,Y,N),       % generador acotado
+	   es_par(X).         % comprobacion
+
+% PROBLEMA 2: coloreado de un mapa
+% colorear/5
+
+% color(?X) - X es un color
+
+color(rojo).
+color(azul).
+color(verde).
+
+% primera solucion
+
+colorear1(A,B,C,D,E) :-
+	color(A), color(B), color(C), color(D), color(E),  % generar
+        A\==B, A\==C, A\==D,                               % comprobar
+        B\==C, B\==E,
+        C\==D, C\==E,
+        D\==E.
+
+% segunda solucion
+
+colorear2(A,B,C,D,E) :-
+	color(A), color(B),       % generacion/comprobacion entrelazada
+        A\==B,
+	color(C),
+        C\==A, C\==B,
+	color(D),
+        D\==A, D\==C,
+        color(E),
+        E\=B, E\==C, E\==D.
+
+% tercera solucion
+
+colorear3(A,B,C,D,E) :-
+	color(C), color(A),         % generacion/comprobacion entrelazada
+        A\==C,                      % (en orden mas restrictivo)
+	color(B),
+        B\==A, B\==C,
+	color(D),
+        D\==A, D\==C,
+        color(E),
+        E\=B, E\==C, E\==D.
+	
+
+% PROBLEMA 3: calculo del cociente (C) y el resto (R) de la division 
+%             entera (Dv div Ds). Dd= C*Ds + R, R < Ds
+% coc_res/4
+
+% primera solucion (erronea)
+
+coc_res1(Dd,Ds,C,R) :-
+	es_natural(C),      % generacion no acotada de C y R
+	es_natural(R),
+	producto(C,Ds,T),   % comprobacion
+	suma(T,R,Dd),
+	menor(R,Ds).
+
+% segunda solucion (erronea)
+
+coc_res2(Dd,Ds,C,R) :-
+	producto(C,Ds,T),   % generacion no acotada de C
+        suma(T,R,Dd),	    % calculo de R
+        menor(R,Ds).	    % comprobacion
+
+% tercera solucion
+
+coc_res3(Dd,Ds,C,R) :-
+	menor_igual(C,Dd),  % generacion acotada de C y R
+	menor(R,Ds),
+	producto(C,Ds,T),   % comprobacion
+	suma(T,R,Dd).
+
+% cuarta solucion
+
+coc_res4(Dd,Ds,C,R) :-
+	menor_igual(C,Dd),  % generacion acotada de C
+	producto(C,Ds,T),   % calculo de R
+	suma(T,R,Dd),
+	menor(R,Ds).        % comprobacion
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 4. Relaciones binarias y bases de datos relacionales 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+% definicion de dominios
+
+% hombre(?X) - X es un hombre
+
+hombre(juan).
+hombre(pedro).
+hombre(salvador).
+hombre(miguel).
+
+% mujer(?X) - X es una mujer
+
+mujer(elena).
+mujer(maria).
+mujer(eva).
+mujer(silvia).
+
+% persona(?X) - X es un hombre o una mujer
+
+persona(X) :- hombre(X).
+persona(Y) :- mujer(Y).
+
+% definicion de relaciones
+
+% misma_edad(?X,?Y) - X e Y tienen la misma edad
+
+misma_edad(juan,pedro).
+misma_edad(salvador,elena).
+misma_edad(pedro,maria).
+misma_edad(salvador,eva).
+misma_edad(silvia,miguel).
+
+% definicion de cierres o clausuras
+
+% ejemplo: calculo de cierres de la relacion misma_edad/2
+
+% cierre reflexivo
+% misma_edad_reflex/2
+
+misma_edad_reflex(X,Y) :- misma_edad(X,Y).
+misma_edad_reflex(X,X) :- persona(X).
+
+% cierre simetrico
+% misma_edad_sim/2
+
+misma_edad_sim(X,Y) :- misma_edad(X,Y).
+misma_edad_sim(X,Y) :- misma_edad(Y,X).
+
+% cierre transitivo
+% misma_edad_trans/2
+
+misma_edad_trans(X,Y) :- misma_edad(X,Y).
+misma_edad_trans(X,Y) :-
+	misma_edad(X,Z),
+	misma_edad_trans(Z,Y).
+
+% preorden: cierre reflexivo y transitivo
+% misma_edad_preorden/2
+
+misma_edad_preorden(X,X) :- persona(X).
+misma_edad_preorden(X,Y) :-
+	misma_edad(X,Z),
+	misma_edad_preorden(Z,Y).
+
+% equivalencia: cierre reflexivo, simetrico y transitivo
+% misma_edad_eq/2
+
+misma_edad_eq(X,X) :- persona(X).
+misma_edad_eq(X,Y) :-
+	misma_edad_sim(X,Z),
+	misma_edad_eq(Z,Y).
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
