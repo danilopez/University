@@ -161,11 +161,29 @@ cuantas_cola(X,[Y|Ys],Ac,N) :-
 	cuantas_cola(X,Ys,Ac,N).
 
 % escalar(+Xs, +Ys, ?P) P es el producto escalar de Xs y Ys
-escalar([X],[],X).
-escalar([],[Y],Y).
+longitud([],0).
+longitud([_|Xs],N) :-
+	longitud(Xs,N1),
+	N is N1 + 1.
+
 escalar([X],[Y],P) :-
 	P is X * Y.
 escalar([X|Xs],[Y|Ys],P) :-
+	longitud(Xs,Lx),
+	longitud(Ys,Ly),
+	Lx =:= Ly,
 	M is X * Y,
 	escalar(Xs,Ys,S),
 	P is M + S.
+
+escalar2(Xs,Ys,P) :- escalar_cola(Xs,Ys,P,P).
+
+escalar_cola([X],[Y],P,P) :-
+	P is X * Y.
+escalar_cola([X|Xs],[Y|Ys],Ac,P) :-
+	longitud(Xs,Lx),
+	longitud(Ys,Ly),
+	Lx =:= Ly,
+	M is X * Y,
+	NAc is Ac + M,
+	escalar_cola(Xs,Ys,NAc,P).
