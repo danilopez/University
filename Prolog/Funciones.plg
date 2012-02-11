@@ -60,9 +60,6 @@ preso(X) :-
 	(25+X)*2 =:= 54+X
 .
 
-partir(Ls,As,Bs,Cs) :-
-% TODO
-.
 
 %%%%%%%%%%%%%%%%%%%
 %     TEMA 2      %
@@ -100,4 +97,27 @@ menor_igual(s(X),s(Y)) :-
 % minimo(?X,?Y,?Z) -- Z = min(X,Y)
 minimo(X,Y,X) :- menor_igual(X,Y).
 minimo(X,Y,Y) :- menor(Y,X).
+
+%%%%%%%%%%%%%%%%%%%
+%     TEMA 4      %
+%%%%%%%%%%%%%%%%%%%
+% Define versiones recursivas y recursivas de cola de los siguientes predicados sobre listas de números
+% suma(+Xs, ?N) N es la suma de los elementos de Xs
+suma([],0).
+suma([X|Xs],N) :-
+	suma(Xs,M),
+	N is X + M.
+	
+suma2(Xs,N) :- suma_cola(Xs,0,N).
+
+suma_cola([],N,N).
+suma_cola([X|Xs],Ac,N) :-
+	MAc is Ac + X,
+	suma_cola(Xs,MAc,N).
+	
+% maximo(+AsMBs,?M) M es el máximo de AsMBs
+maximo([X],X).
+maximo([X|Xs],M) :-
+	maximo(Xs,N),
+	M is max(X,N).
 

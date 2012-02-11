@@ -57,3 +57,22 @@ suma([X|Xs],N) :-
 suma_demas(XsNYs) :-
 	selecciona(N,XsNYs,XsYs),
 	suma(XsYs,N).
+	
+% (1.5 puntos) Ejercicio 6: Define el predicado pareja_sp(+Xs,-A,-B) que dada una lista de enteros Xs devuelve dos elementos de la lista A y B tales que A aparece antes que B, la suma de ambos es menor que la suma de los elementos que preceden a A y el producto de ambos es mayor que el producto de los elementos que suceden a B. Por ejemplo:
+% ?- pareja_sp([30,8,12,6,34],A,B).
+% A = 8,
+% B = 6 ;
+% A = 12,
+% B = 6 ;
+% A = 6,
+% B = 34 ;
+% false.
+
+pareja_sp(Xs, A, B) :-
+	concatena(Antes, [A|Ts], Xs),
+	concatena(_, [B|Despues], Ts),
+	suma(Antes,S),
+	S > A+B,
+	producto(Despues,P),
+	A*B > P.
+	
