@@ -159,3 +159,13 @@ cuantas_cola(X,[X|Xs],Ac,N) :-
 cuantas_cola(X,[Y|Ys],Ac,N) :-
 	X \== Y,
 	cuantas_cola(X,Ys,Ac,N).
+
+% escalar(+Xs, +Ys, ?P) P es el producto escalar de Xs y Ys
+escalar([X],[],X).
+escalar([],[Y],Y).
+escalar([X],[Y],P) :-
+	P is X * Y.
+escalar([X|Xs],[Y|Ys],P) :-
+	M is X * Y,
+	escalar(Xs,Ys,S),
+	P is M + S.
