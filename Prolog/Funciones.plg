@@ -123,8 +123,8 @@ maximo([X|Xs],M) :-
 
 maximo2([X|Xs],M) :- maximo_cola([X|Xs],X,M).
 
-maximo_cola([X],X,X).
-maximo_cola([X|Xs],Ac,M) :- % no funciona
+maximo_cola([],X,X).
+maximo_cola([X|Xs],Ac,M) :-
 	MAc is max(X,Ac),
 	maximo_cola(Xs,MAc,M).
 	
@@ -136,7 +136,8 @@ minimo([X|Xs],M) :-
 
 minimo2([X|Xs],M) :- minimo_cola([X|Xs],X,M).
 
-minimo_cola([X],X,X).
-minimo_cola([X|Xs],Ac,M) :- % mismo problema que con maximo_cola
+minimo_cola([],X,X).
+minimo_cola([X|Xs],Ac,M) :-
 	NAc is min(X,Ac),
 	minimo_cola(Xs,NAc,M).
+
