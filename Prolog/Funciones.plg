@@ -121,3 +121,9 @@ maximo([X|Xs],M) :-
 	maximo(Xs,N),
 	M is max(X,N).
 
+maximo2([X|Xs],M) :- maximo_cola([X|Xs],X,M).
+
+maximo_cola([X],X,X).
+maximo_cola([X|Xs],Ac,M) :-
+	MAc is max(X,Ac),
+	maximo_cola(Xs,MAc,M).
