@@ -134,10 +134,28 @@ minimo([X|Xs],M) :-
 	minimo(Xs,N),
 	M is min(X,N).
 
-minimo2([X|Xs],M) :- minimo_cola([X|Xs],X,M).
+minimo2([X|Xs] ,M) :- minimo_cola([X|Xs],X,M).
 
 minimo_cola([],X,X).
 minimo_cola([X|Xs],Ac,M) :-
 	NAc is min(X,Ac),
 	minimo_cola(Xs,NAc,M).
 
+% cuantas(+X, +AsXBs, ?N) X aparece N veces en AsXBs
+cuantas(_,[],0).
+cuantas(X,[X|Xs],N) :-
+	cuantas(X,Xs,M),
+	N is M + 1.
+cuantas(X,[Y|Ys],N) :-
+	X \== Y,
+	cuantas(X,Ys,N).
+	
+cuantas2(X,Xs,N) :- cuantas_cola(X,Xs,0,N).
+
+cuantas_cola(_,[],N,N).
+cuantas_cola(X,[X|Xs],Ac,N) :-
+	NAc is Ac + 1,
+	cuantas_cola(X,Xs,NAc,N).
+cuantas_cola(X,[Y|Ys],Ac,N) :-
+	X \== Y,
+	cuantas_cola(X,Ys,Ac,N).
