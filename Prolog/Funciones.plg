@@ -187,3 +187,7 @@ escalar_cola([X|Xs],[Y|Ys],Ac,P) :-
 	M is X * Y,
 	NAc is Ac + M,
 	escalar_cola(Xs,Ys,NAc,P).
+	
+% rango(+X, +Y, ?Ls) Ls es una lista con los enteros entre X e Y
+rango(X,X,[]).
+%rango(X,Y,Ls)
