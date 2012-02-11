@@ -1,0 +1,20 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%
+%     Ejercicios Tema 3
+%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% 1 Define los siguientes predicados en prolog
+es_natural(0).
+es_natural(X) :-
+	X > 0,
+	T is X-1,
+	es_natural(T).
+	
+es_entero(0).
+es_entero(X) :-
+	T is abs(X)-1,
+	T > 0,
+	es_entero(T).
+	
+num_digitos(X,N) :-
+	es_entero(X),
+	
