@@ -1,0 +1,7 @@
+% Febrero 2011
+% Ejercicio 2: Define mediante recursión los siguientes predicados:
+% no_esta/2
+no_esta(_,[]).
+no_esta(X,[Y|Ys]) :-
+	X /== Y,
+	no_esta(X,Ys).
