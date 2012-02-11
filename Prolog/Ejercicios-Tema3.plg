@@ -11,10 +11,33 @@ es_natural(X) :-
 	
 es_entero(0).
 es_entero(X) :-
-	T is abs(X)-1,
+	T is abs(X),
 	T > 0,
-	es_entero(T).
-	
+	N is T-1,
+	es_entero(N).
+
+num_digitos(X,1) :-
+	es_entero(X),
+	T is abs(X),
+	X < 10.
+
 num_digitos(X,N) :-
 	es_entero(X),
-	
+	T is abs(X),
+	T > 9,
+	R is T // 10,
+	num_digitos(R,M),
+	N is M + 1.
+
+dig_iesimo(X,1,D) :-
+	es_entero(X),
+	es_entero(D),
+	T is abs(X),
+	T mod 10 =:= D.
+dig_iesimo(X,I,D) :- % solo funciona como test (?)
+	es_entero(X),
+	es_entero(D),
+	es_entero(I),
+	Sig is X // 10,
+	N is I - 1,
+	dig_iesimo(Sig,N,D).
