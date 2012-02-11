@@ -76,3 +76,21 @@ pareja_sp(Xs, A, B) :-
 	producto(Despues,P),
 	A*B > P.
 	
+% (1.5 + 1.5 puntos) Las relaciones de amistad de una red social están represantadas por el predicdo amigos(?P,?As), donde P es una persona y As es una lista con las personas que son amigos de P. El predicado amigos/2 está definido por un conjunto de hechos como el siguiente:
+amigos(juan,[pedro]).
+amigos(pedro,[juan, manuel, antonio,laura]).
+amigos(manuel, [pedro, antonio, sonia]).
+amigos(antonio, [manuel, sonia, pedro, sandra]).
+amigos(laura, [sandra, pedro, sonia]).
+amigos(sonia, [laura antonio, sandra, manuel]).
+amigos(sandra, [antonio, sonia, laura]).
+
+sugerido(X,K,S,Comunes) :-
+	amigos(X,Ax),
+	amigos(S,AS),
+	S \== X,
+	no_esta(S,Ax),
+	interseccion(Ax, As, Comunes),
+	longitud(Comunes,N),
+	N >= K.
+
