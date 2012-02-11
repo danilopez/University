@@ -8,7 +8,7 @@ no_esta(X,[Y|Ys]) :-
 
 % selecciona/3
 selecciona(X,[X|Ys],Ys).
-selecciona(X,[Y|Ys],Zs) :-
+selecciona(X,[Y|Ys],[Y|Zs]) :-
 	selecciona(X,Ys,Zs).
 
 % (0.5 puntos) Ejercicio 3: Define un predicado recursivo de cola producto(+Xs, -N) que dada una lista de enteros Xs devuelva en N el producto de sus elementos. Por ejemplo:
@@ -19,7 +19,7 @@ producto(Xs,P) :-
 	producto(Xs,1,P).
 
 producto([],P,P).
-producto[X|Xs],Ac,P) :-
+producto([X|Xs],Ac,P) :-
 	NAc is Ac*X,
 	producto(Xs,NAc,P).
 
@@ -39,3 +39,17 @@ interseccion([X|Xs], Ys, [X|Zs]) :-
 interseccion([X|Xs], Ys, Zs) :-
 	no_esta(X,Ys),
 	interseccion(Xs, Ys, Zs).
+
+% (1.5 puntos) Ejercicio 5: Define el predicado suma_demas(+Xs) que se satisface si la lista de enteros Xs contiene un elemento que es igual a la suma de los demás elementos. Por ejemplo:
+% ?- suma_demas([1,2,3,10,4]).
+% true ;
+% false.
+
+suma([],0).
+suma([X|Xs],N) :-
+	suma(Xs,M),
+	N is M+X.
+
+suma_demas(XsNYs) :-
+	selecciona(N,XsNYs,XsYs),
+	suma(XsYs,N).
