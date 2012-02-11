@@ -1,7 +1,41 @@
 % Febrero 2011
-% Ejercicio 2: Define mediante recursión los siguientes predicados:
+% (0.5 + 0.5 puntos) Ejercicio 2: Define mediante recursión los siguientes predicados:
 % no_esta/2
 no_esta(_,[]).
 no_esta(X,[Y|Ys]) :-
-	X /== Y,
+	X \== Y,
 	no_esta(X,Ys).
+
+% selecciona/3
+selecciona(X,[X|Ys],Ys).
+selecciona(X,[Y|Ys],Zs) :-
+	selecciona(X,Ys,Zs).
+
+% (0.5 puntos) Ejercicio 3: Define un predicado recursivo de cola producto(+Xs, -N) que dada una lista de enteros Xs devuelva en N el producto de sus elementos. Por ejemplo:
+% ?- producto([1,2,3,4,5],N).
+% N = 120.
+
+producto(Xs,P) :-
+	producto(Xs,1,P).
+
+producto([],P,P).
+producto[X|Xs],Ac,P) :-
+	NAc is Ac*X,
+	producto(Xs,NAc,P).
+
+%  (1.0 punto) Ejercicio 4: Define el predicado interseccion(+Xs, +Ys, -Zs) que devuelve en Zs la interseccion de las listas Xs e Ys. Por ejemplo:
+% ?- interseccion([a,b,c,d,e,f],[1,a,2,3,e,f,4],Zs).
+% Zs = [a,e,f] ;
+% false.
+%
+% ?- interseccion([a,X,b,Y,c],[A,Z,w,Y,b], Zs).
+% Zs = [b,Y] ;
+% false.
+
+interseccion([], _, []).
+interseccion([X|Xs], Ys, [X|Zs]) :-
+	esta(X,Ys),
+	interseccion(Xs,Ys, Zs).
+interseccion([X|Xs], Ys, Zs) :-
+	no_esta(X,Ys),
+	interseccion(Xs, Ys, Zs).
