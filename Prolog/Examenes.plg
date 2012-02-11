@@ -32,6 +32,10 @@ producto([X|Xs],Ac,P) :-
 % Zs = [b,Y] ;
 % false.
 
+esta(X,[X|Xs]).
+esta(X,[Y|Ys]) :-
+	esta(X,Ys).
+
 interseccion([], _, []).
 interseccion([X|Xs], Ys, [X|Zs]) :-
 	esta(X,Ys),
