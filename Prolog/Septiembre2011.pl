@@ -15,7 +15,11 @@ selecciona(X,[X|Bs],Bs).
 selecciona(X,[Y|YsXBs],[Y|YsBs]) :-
 	selecciona(X,YsXBs,YsBs).
 
-% suma/2 (?)
+% suma/2
+suma([X],X).
+suma([X|Xs],T) :-
+	suma(Xs,Suma),
+	T is Suma + X.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Problema 2. (1.0 + 1.5 + 1.0 ptos.) Representaremos los enteros por términos de acuerdo con la siguiente sintaxis:
@@ -89,3 +93,9 @@ diccionario(Alfabeto,N,[P|Ps]) :-
 	miembro(P,Alfabeto),
 	N1 is N-1,
 	diccionario(Alfabeto,N1,Ps).
+
+% Problema 5. (2.0 puntos) Define el predicado divide(+Xs, -Ps) que dada una lista de enteros Xs la divide en N sublistas no vacías -siendo N par- de manera que la suma de los elementos de la primera es igual a la suma de los elementos de la última, la suma de los elementos de la segunda es igual a la suma de los elementos de la penúltima y, en general, la suma de los elementos de la iésima (i <= N/2) es igual a la suma de los elementos de de la N-i+1 -ésima. Las sublistas se devuelven emparejadas en la lista de pares de listas Ps. Por ejemplo:
+% ?- divide([1,2,3,7,4,1,9,1,4,2],S).
+% S = [([1,2,3],[4,2]),([7,4],[1,9,1])] ;
+% S = [([1,2,3,7,4],[1,9,1,4,2])] ;
+% false.
