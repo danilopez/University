@@ -45,7 +45,7 @@ separa(p(E),p(P),S) :-
 % X = s(c).
 suma(c,c,c).
 suma(p(P),c,p(P)).
-suma(c,s(S),s(Y)).
+suma(c,s(S),s(S)).
 suma(p(P),s(S),X) :-
 	suma(P,S,X).
 
@@ -61,7 +61,15 @@ normaliza(E,EN) :-
 	separa(E,P,S),
 	suma(P,S,EN).
 
-% Problema 3. Las incógnitas A,B,C y D de la figura de abajo pueden reemplazarse por números distintos entre 1 y 4, de forma que los cuatro números contenidos en cada círculo sumen la misma cantidad. Define un predicado circulos(A, B, C, D) que calcule el valor de las incógnitas.
+% Problema 3. (1.5 ptos.) Las incógnitas A,B,C y D de la figura de abajo pueden reemplazarse por números distintos entre 1 y 4, de forma que los cuatro números contenidos en cada círculo sumen la misma cantidad. Define un predicado circulos(A, B, C, D) que calcule el valor de las incógnitas.
+circulos(A, B, C, D) :-
+	ABCD = [1,2,3,4],
+	selecciona(A,ABCD,BCD),
+	selecciona(B,BCD, CD),
+	selecciona(C,CD,[D]),
+	S is 5 + A + B + C,
+	S =:= 6 + A + C + D,
+	S =:= 7 + B + C + D.
 
 % Problema 4. (1.5 ptos.) Define el predicado diccionario(+Alfabeto,+N,-Palabra) que dados una lista de símbolos Alfabeto y una cantidad N, genera en Palabra todas las palabras que se pueden formar con N símbolos de Alfabeto. Las palabras deben generarse ordenadas según el orden del alfabeto. Por ejemplo:
 % ?- diccionario([tau, pi, xi], 2, Ps).
