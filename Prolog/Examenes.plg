@@ -1,3 +1,10 @@
+%%%%%%%%%%%%%%%%%%%%%%%
+% Funciones básicas
+%%%%%%%%%%%%%%%%%%%%%%%
+concatena([],Ys,Ys).
+concatena([X|Xs],Ys,[X|XsYs]) :-
+	concatena(Xs,Ys,XsYs).
+
 %%%%%%%%%%%%%%%%%%%%
 %   Febrero 2011
 %%%%%%%%%%%%%%%%%%%%
@@ -157,3 +164,53 @@ final(Fs) :-
 	contiguas(Fichas),
 	trocea(Fs, Xs, Fichas, Ys),
 	concatena(Xs, Ys, [v,v,v,v,v,v,v]).
+
+%%%%%%%%%%%%%%%%%%%%%
+%   Febrero 2009
+%%%%%%%%%%%%%%%%%%%%%
+% Problema 2. (1.0 pto.) Define el predicado todos_iguales(+Xs) que se satisface si la lista Xs tiene todos los elementos iguales entre sí. Por ejemplo:
+todos_iguales([]).
+todos_iguales([_]).
+todos_iguales([X,Y|Xs]) :-
+	todos_iguales([Y|Xs]),
+	X == Y.
+	
+% Problema 3. (0.25 + 0.25 + 1.0 ptos.) Tenemos bolas de colores rojo, verde y azul. Los colores están ordenados circularmente de manera que el sucesor del rojo es el verde, el del verde el azul, y el del azul el rojo.
+% a. Define el predicado sucesor(?X, ?Y) que se satisface si Y es el color sucesor de X. Por ejemplo:
+sucesor(rojo,verde).
+sucesor(verde,azul).
+sucesor(azul,rojo).
+
+% Define el predicado sucesores(+Xs, -Ys) que dada una lista de bolas de colores Xs devuelve la lista Ys donde cada bola de Xs ha sido reemplazada por su sucesora. Por ejemplo:
+% ?- sucesores([rojo, verde, verde, rojo, azul], Ys).
+% Ys = [verde, azul, azul, verde, rojo].
+sucesores([],[]).
+sucesores([X|Xs],[Y|Ys]) :-
+	sucesor(X,Y),
+	sucesores(Xs,Ys).
+
+% Define un predicado recursivo de cola cuenta(+Xs, -R, -V, -A) que dada una lista de bolas de colores Xs devuelva en R, V y A el número de bolas rojas, verdes y azules que contiene. Por ejemplo:
+% ?- cuenta([rojo, verde, verde, azul, rojo, azul, rojo, verde], R, V, A).
+% R = 3,
+% V = 3,
+% A = 2 ;
+% false.
+
+cuenta(Xs,R,V,A) :- cuenta_cola(Xs,0,0,0,R,V,A).
+cuenta_cola([],R,V,A,R,V,A).
+cuenta_cola([rojo|Xs],Acr,Acv,Aca,R,V,A) :- % caso bola roja
+	NAc is Acr + 1,
+	cuenta_cola(Xs,NAc,Acv,Aca,R,V,A).
+cuenta_cola([verde|Xs],Acr,Acv,Aca,R,V,A) :- % caso bola verde
+	NAc is Acv + 1,
+	cuenta_cola(Xs,Acr,NAc,Aca,R,V,A).
+cuenta_cola([azul|Xs],Acr,Acv,Aca,R,V,A) :- % caso bola azul
+	NAc is Aca + 1,
+	cuenta_cola(Xs,Acr,Acv,NAc,R,V,A).
+
+% Define el predicado tres(+Xs) que tiene éxito si la lista de bolas Xs está formada por trse segmentos consecutivos no vacíos monocromos, tales que el color de cada segmento es diferente del de los demás. Por ejmplo:
+% ?- tres([rojo,rojo,azul,azul,verde]).
+% true ;
+% false.
+% ?- tres([rojo,verde,verde,rojo]).
+% false.
