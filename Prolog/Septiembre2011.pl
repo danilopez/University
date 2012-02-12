@@ -99,3 +99,14 @@ diccionario(Alfabeto,N,[P|Ps]) :-
 % S = [([1,2,3],[4,2]),([7,4],[1,9,1])] ;
 % S = [([1,2,3,7,4],[1,9,1,4,2])] ;
 % false.
+divide([],[]).
+divide(AsXsBs,[(As,Bs)|Rs]) :-
+	concatena(As,XsBs,AsXsBs),
+	no_vacia(As),
+	concatena(Xs,Bs,XsBs),
+	no_vacia(Bs),
+	suma(As,S),
+	suma(Bs,S),
+	divide(Xs,Rs).
+
+no_vacia([_|_]).
