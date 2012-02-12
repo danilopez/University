@@ -83,3 +83,9 @@ circulos(A, B, C, D) :-
 % Ps = [xi, pi] ;
 % Ps = [xi, xi] ;
 % false.
+diccionario(_,0,[]).
+diccionario(Alfabeto,N,[P|Ps]) :-
+	N > 0,
+	miembro(P,Alfabeto),
+	N1 is N-1,
+	diccionario(Alfabeto,N1,Ps).
