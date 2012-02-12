@@ -37,3 +37,17 @@ digitos_cola(N,Ac,Ds) :-
 	NAc is N mod 10,
 	NewN is N // 10,
 	digitos_cola(NewN,[NAc|Ac],Ds).
+
+% Problema 5. (1.0 pto.) Define el predicado reduce(+X,?Y) que reduce un natural X sumanso sus dígitos, repitiendo esta reducción sobre las sumas obtenidas hasta llegar a un natural de un solo dígito Y. Por ejemplo: 2741 -> 2+7+4+1 -> 14 -> 1+4 -> 5
+% ?- reduce(2741,Y).
+% Y = 5.
+% reduce(10640,2).
+% true.
+
+reduce(X,X) :-
+	X >= 0,
+	X < 9.
+reduce(X,Y) :-
+	digitos(X,Xs),
+	suma(Xs,Suma),
+	reduce(Suma,Y).
