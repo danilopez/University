@@ -1,6 +1,18 @@
 %%%%%%%%%%%%%%%%%%%%%
 %   Febrero 2009
 %%%%%%%%%%%%%%%%%%%%%
+% Funtores básicos
+%%%%%%%%%%%%%%%%%%%%%
+
+concatena([],Ys,Ys).
+concatena([X|Xs],Ys,[X|XsYs]) :-
+	concatena(Xs,Ys,XsYs).
+no_esta(_,[]).
+no_esta(X,[Y|Ys]) :-
+	no_esta(X,Ys).
+	X \== Y.
+
+%%%%%%%%%%%%%%%%%%%%%%
 % Problema 2. (1.0 pto.) Define el predicado todos_iguales(+Xs) que se satisface si la lista Xs tiene todos los elementos iguales entre sí. Por ejemplo:
 todos_iguales([]).
 todos_iguales([_]).
@@ -67,3 +79,35 @@ estado_final(Ei) :-
 	abs(R-A) =< 2,
 	abs(V-A) =< 2.
 	
+% b. La regla para reemplazar bolas es la siguiente: dadas dos bolas no consecutivas del mismo color entre las cuales no aparece ninguna bola de ese color, se reemplaza cada bola que aparezca entre ellas por una bola de su color sucesor. Por ejemplo, dada la fila de bolas:
+% [rojo, verde, verde, azul, rojo, azul]
+% solo es posible efectuar los siguientes dos reemplazamientos:
+% [rojo, verde, verde, azul, rojo, azul] -> [rojo, azul, azul, rojo, rojo, azul]
+% [rojo, verde, verde, azul, rojo, azul] -> [rojo, verde, verde, azul, verde, azul]
+% Define el predicado separa(+Xs, -Primero, -Medio, -Final) que separe, si es posible, la lista de bolas Xs en tres segmentos consecutivos no vacíos, tales que el primero acaba en el color en que comienza el último, y ese color no aparece en el de enmedio. Por ejemplo:
+% ?- separa([rojo, verde, verde, azul, rojo, azul], Primero, Medio, Final).
+% Primero = [rojo],
+% Medio = [verde, verde, azul],
+% Final = [rojo, azul] ;
+%
+% Primero = [rojo, verde, verde, azul],
+% Medio = [rojo],
+% Final = [azul] ;
+% false.
+separa(PrimeroXMedioXFinal,[P|PrimeroX],[M|Medio],[X|Final]) :-
+	concatena([P|PrimeroX],MedioXFinal,PrimeroXMedioXFinal),
+	concatena(_, [X],[P|PrimeroX]),
+	concatena([M|Medio],[X|Final],MedioXFinal),
+	no_esta(X,[M|Medio]).
+
+% c. Define el predicado mover(+Ei, -Ej) que dado un estado Ei devuelve sus estados sucesores Ej. Por ejemplo:
+% ?- mover([rojo, verde, verde, azul, rojo, azul], Ej).
+% Ej = [rojo, azul, azul, rojo, rojo, azul] ;
+% Ej = [rojo, verde, verde, azul, verde, azul] ;
+% false.
+
+mover(Ei,Ej) :-
+	separa(Ei,Primero,Medio,Final),
+	sucesores(Medio,NMedio),
+	concatena(NMedio,Final,NMedioFinal),
+	concatena(Primero,NMedioFinal,Ej).
