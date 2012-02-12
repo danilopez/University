@@ -22,3 +22,18 @@ p(X,Ys,Zs) :-
 % (-,+,+) | Generador acotado | Genera en X el elemento en que se diferencian Ys y Zs. Sólo tiene respuestas múltiples si aparecen varias X consecutivas.
 % (+,-,+) | No termina | El primer concatena/3 es un generador no acotado. Generaría todas las listas posibles de Zs añadiendo infinitos elementos X.
 
+% Problema 4. (1.0 pto.) Define un predicado recursivo de cola digitos(+N, -Ds) que dado un natural N devuelva en Ds la lista formada por los dígitos de N. Por ejemplo:
+% ?- digitos(2371,Ds).
+% Ds = [2,3,7,1].
+% ?- digitos(6,Ds).
+% Ds = [6].
+
+digitos(N,Ds) :- digitos_cola(N,[],Ds).
+
+digitos_cola(N,Ac,[N|Ac]) :-
+	N // 10 =:= 0.
+digitos_cola(N,Ac,Ds) :-
+	N > 9,
+	NAc is N mod 10,
+	NewN is N // 10,
+	digitos_cola(NewN,[NAc|Ac],Ds).
