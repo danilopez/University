@@ -62,3 +62,13 @@ inserta(X,[Y|Ys],[X,Y|Ys]) :-
 inserta(X,[Y|Ys],[Y|Zs]) :-
 	X @> Y,
 	inserta(X,Ys,Zs).
+	
+% Define el predicado ordena(+Xs,-Ys) que dada una lista de términos Xs devuelve su ordenación en Ys. Por ejemplo:
+% ?- ordena([4,2,6,1],Ys).
+% Ys = [1,2,4,6].
+ordena(Xs,Ys) :- ordena_cola(Xs,[],Ys).
+
+ordena_cola([],Ac,Ac).
+ordena_cola([X|Xs],Ac,Ys) :-
+	inserta(X,Ac,NAc),
+	ordena_cola(Xs,NAc,Ys).
