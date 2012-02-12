@@ -46,8 +46,10 @@ digitos_cola(N,Ac,Ds) :-
 
 reduce(X,X) :-
 	X >= 0,
-	X < 9.
+	X <= 9.
 reduce(X,Y) :-
 	digitos(X,Xs),
 	suma(Xs,Suma),
 	reduce(Suma,Y).
+	
+% Problema 6. ()
