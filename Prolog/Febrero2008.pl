@@ -46,10 +46,19 @@ digitos_cola(N,Ac,Ds) :-
 
 reduce(X,X) :-
 	X >= 0,
-	X <= 9.
+	X =< 9.
 reduce(X,Y) :-
 	digitos(X,Xs),
 	suma(Xs,Suma),
 	reduce(Suma,Y).
 	
-% Problema 6. ()
+% Problema 6. (1.0 + 1.0 ptos.) Define el predicado inserta(+X,+Ys,-Zs) que inserta el término X en la lista de términos ordenada Ys, obteniendo la lista de términos ordenada Zs. Por ejemplo:
+% ?- inserta(4,[-7,1,5,83],Zs).
+% Zs = [-7, 1, 4, 5, 83].
+
+inserta(X,[],[X]).
+inserta(X,[Y|Ys],[X,Y|Ys]) :-
+	X @< Y.
+inserta(X,[Y|Ys],[Y|Zs]) :-
+	X @> Y,
+	inserta(X,Ys,Zs).
