@@ -43,3 +43,26 @@ separa(Ls,N,Xs,[Y|Ys],[Z|Zs]) :-
 	concatenar(Xs,YsZs,Ls), % genero Xs y las listas YsZs - condición 1
 	concatenar([Y|Ys],[Z|Zs],YsZs), % genero las listas [Y|Ys] y [Z|Zs], y de esta manera no están vacías - condición 1 y 2
 	suma(Ys,N). % compruebo la condición 3
+
+% Problema 4. (2.5 ptos.) Representaremos una fila de platos con cerezas como una lista de números donde cada número indica el número de cerezas contenidas en el plato. Define el predicado salta(+Xs,+K,-Ys) que a partir de la lista Xs produzca la lista Ys, obtenida como resultado de pasar una cereza de un plato a otro tal que entre ellos hay otros platos que en total contienen exactamente K cerezas (da igual el número de platos). Así, el objetivo salta([1,2,1,2,0,3],3,Ys) produce para Ys los siguientes éxitos:
+% Ys = [0,2,1,3,0,3] ;	Pasa una cereza del primer plato al cuarto
+% Ys = [1,1,1,2,1,3] ;	Pasa una cereza del segundo plato al quinto
+% Ys = [1,1,1,2,0,4] ;	Pasa una cereza del segundo plato al sexto
+% Ys = [2,2,1,1,0,3] ;	Pasa una cereza del cuarto plato al primero
+% Ys = [1,3,1,2,0,2] ;	Pasa una cereza del sexto plato al segundo
+% SUGERENCIA: Utilizar el predicado separa/5 del ejercicio anterior.
+salta(Xs,K,Ys) :-
+	separa(Xs,K,As,[B|Bs],[C|Cs]),
+	pasa(B,C,NB,NC),
+	concatenar([NB|Bs],[NC|Cs],NBBsNCCs),
+	concatenar(As,NBBsNCCs,Ys).
+
+pasa(B,C,NB,NC) :-
+	B > 0,
+	NB is B-1,
+	NC is C+1.
+
+pasa(B,C,NB,NC) :-
+	C > 0,
+	NB is B + 1,
+	NC is C - 1.
