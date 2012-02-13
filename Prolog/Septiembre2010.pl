@@ -71,4 +71,4 @@ trayecto(Linea,Origen,Destino,Tiempo) :-
 % LO = azul,
 % LD = roja ;
 % false.
-correspondencia(E,LO,LD) :-
+correspondencia(E,LO,LD) :- % TODO: hay que hacer el functor estaciones.
