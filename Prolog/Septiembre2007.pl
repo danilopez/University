@@ -66,3 +66,14 @@ pasa(B,C,NB,NC) :-
 	C > 0,
 	NB is B + 1,
 	NC is C - 1.
+	
+% Problema 5. (2.0 ptos.) Define el predicado sol(+E0, +K, +H, -Cs) al que se le pasa una fila de platos con cerezas inicial E0, un salto K (número de cerezas a saltar en cada movimiento) y un número H, y encuentra los movimientos necesarios Cs para trasvasar cerezas de forma que queden solo platos vacíos o con H cerezas.
+sol(E0,K,H,[E0|Es]) :-
+	sol_aux(E0,K,H,[E0],Es).
+
+sol_aux(Ei,_H,_,[]) :-
+	todos(Ei,H).
+sol_aux(Ei,K,H,Vs,[Ej|Es]).
+	salta(Ei,K,Ej),
+	no_esta(Ej,Vs),
+	sol_aux(Ej,K,H,[Ej|Vs],Es).
