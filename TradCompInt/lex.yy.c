@@ -448,7 +448,7 @@ char *yytext;
 #line 2 "p1.l"
 	int numCar = 0;
 	int numPal = 0;
-	int numLin = 1; /* Siempre hay al menos 1 linea */
+	int numLin = 0;
 #line 453 "lex.yy.c"
 
 #define INITIAL 0
@@ -1739,5 +1739,6 @@ void yyfree (void * ptr )
 
 int main() {
 	yylex();
+	if (numCar > 0) numLin++; /* Esto es útil sólo para descartar los archivos vacíos, donde habría 0 líneas. En los archivos en los que hubiera al menos 1 caracter, entonces ya se contaría como 1 línea */
 	printf("%d caracteres, %d palabras, %d lineas\n", numCar, numPal, numLin);
 }
