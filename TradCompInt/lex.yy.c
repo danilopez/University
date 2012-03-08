@@ -752,7 +752,7 @@ YY_RULE_SETUP
 case 5:
 YY_RULE_SETUP
 #line 7 "Ejercicio1.l"
-{BEGIN(INITIAL);} /* Detecta el fin del comentario */
+{BEGIN(0);} /* Detecta el fin del comentario */
 	YY_BREAK
 case 6:
 /* rule 6 can match eol */
