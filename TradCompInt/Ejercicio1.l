@@ -1,4 +1,4 @@
-%s comentario
+%START comentario
 %%
 "/*"				{BEGIN(comentario);}
 <comentario>[^*\n]	{ /* se come cualquier cosa que no sea un '*' */ }
