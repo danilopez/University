@@ -1,13 +1,15 @@
+PALABRA [a-zA-Z]+
 %%
-[a-zA-Z]+	{
-				char aux;
-				int cont;
-				
-				for (cont = 1; cont <= (yyleng/2); cont++) {
-					aux = yytext[cont-1];
-					yytext[cont-1] = yytext[yyleng-cont];
-					yytext[yyleng-cont] = aux;
-				}
-				ECHO;
-			}
+{PALABRA}	{ invertir(yytext, yyleng); }
 %%
+void invertir(char *cadena, int longitud) {
+	char aux;
+	int cont;
+	
+	for (cont = 1; cont <= (longitud/2); cont++) {
+		aux = cadena[cont-1];
+		cadena[cont-1] = cadena[longitud-cont];
+		cadena[longitud-cont] = aux;
+	}
+	ECHO;
+}
