@@ -1,0 +1,102 @@
+;**************************************************
+;*		Programa básico práctica1                             *
+;**************************************************
+;								 
+;----- Definición de símbolos   -------  Placa  3DKM16C/62PU ---------------
+;
+VramTOP	.equ	000400h		; inicio RAM 
+VramEND	.equ	007D00h	; final RAM
+VprogTOP	.equ	0A0000h	; inicio ROM
+;
+;;----- Área de datos RAM ----------------------------------------
+;
+	.section	memoriadatos, data
+	.org	VramTOP
+;
+;----- Área de código ROM/Flash --------------------------------
+;
+ 	.section	programa, code
+	.org	VprogTOP
+;
+;----- Limpieza de la RAM  -------------------------------
+;
+	mov.w	#0, R0				; 0 pone ceros
+	mov.w	#(VramEND+1-VramTOP)/2,R3	; numero de veces que se repite
+	mov.w	#VramTOP, A1			; direccion de comienzo
+	sstr.w
+;
+;----- Iinicialización ------------------------------------
+;
+
+;----- Programa principal ------------------------------
+; --    Hace comparacion de enteros de 32 bits sobre registros con signo
+; --     x = R3,R1; y = R2,R0
+; --     z = R2,R0
+; --    Comparamos los numeros x e y
+; --        si son iguales se restan
+; --        en el ejemplo usamos x = y  entonces al restarlos son distintos
+; --        y sale del programa
+main:
+	
+	mov.w #0,R3
+	mov.w #-1,R1
+
+	mov.w #0,R2
+	mov.w #1,R0
+
+inicio:
+		FCLR Z
+		FCLR C
+		FCLR S
+		BTST 15,R3
+		JC	negativo
+		JZ  positivo
+		
+negativo:
+		FCLR Z
+		FCLR C
+		FCLR S
+		BTST 15,R2
+		JC iguales
+		JZ resultadoymayor
+
+positivo:
+			FCLR Z
+		FCLR C
+		FCLR S
+		BTST 15,R2
+		JC resultadoxmayor
+		JZ iguales
+
+resultadoymayor:
+			FCLR Z
+		FCLR C
+		FCLR S
+		FSET S
+
+resultadoxmayor:
+			FCLR Z
+		FCLR C
+		FCLR S
+		FSET C
+iguales:
+			FCLR Z
+		FCLR C
+		FCLR S
+		CMP.w R3,R2
+		JEQ compara2
+		JMP final
+		
+compara2:		
+			FCLR Z
+		FCLR C
+		FCLR S
+		CMP.w R1,R0
+		JMP final
+
+final:	
+
+	JMP main
+;
+;----- Fin del programa ----------------------------
+	.end
