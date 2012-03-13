@@ -359,8 +359,8 @@ static void yy_fatal_error (yyconst char msg[]  );
 	*yy_cp = '\0'; \
 	(yy_c_buf_p) = yy_cp;
 
-#define YY_NUM_RULES 9
-#define YY_END_OF_BUFFER 10
+#define YY_NUM_RULES 5
+#define YY_END_OF_BUFFER 6
 /* This struct is not used in this scanner,
    but its presence is necessary. */
 struct yy_trans_info
@@ -368,29 +368,29 @@ struct yy_trans_info
 	flex_int32_t yy_verify;
 	flex_int32_t yy_nxt;
 	};
-static yyconst flex_int16_t yy_accept[26] =
+static yyconst flex_int16_t yy_accept[24] =
     {   0,
-        0,    0,    3,    3,   10,    8,    9,    7,    3,    3,
-        5,    6,    8,    8,    1,    3,    0,    0,    0,    1,
-        0,    4,    2,    2,    0
+        0,    0,    0,    0,    6,    5,    5,    3,    1,    2,
+        0,    0,    0,    2,    0,    0,    0,    0,    0,    0,
+        0,    4,    0
     } ;
 
 static yyconst flex_int32_t yy_ec[256] =
     {   0,
-        1,    1,    1,    1,    1,    1,    1,    1,    2,    3,
+        1,    1,    1,    1,    1,    1,    1,    1,    1,    2,
         1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
         1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
-        1,    2,    1,    1,    1,    1,    1,    1,    1,    4,
-        5,    1,    1,    1,    6,    7,    8,    9,    9,    9,
-        9,    9,    9,    9,    9,    9,    9,    1,    1,    1,
-        1,    1,    1,    1,   10,   10,   10,   10,   10,   10,
-       10,   10,   10,   10,   10,   10,   10,   10,   10,   10,
-       10,   10,   10,   10,   10,   10,   10,   10,   10,   10,
-        1,    1,    1,    1,   10,    1,   10,   10,   10,   10,
+        1,    3,    1,    4,    1,    1,    1,    1,    1,    1,
+        1,    1,    1,    1,    1,    5,    1,    6,    6,    6,
+        6,    6,    6,    6,    6,    6,    6,    1,    1,    1,
+        1,    1,    1,    1,    7,    7,    7,    8,    7,    8,
+        7,    7,    7,    8,    7,    7,    7,    7,    7,    7,
+        7,    7,    7,    7,    7,    7,    7,    7,    7,    7,
+        1,    1,    1,    1,    1,    1,    7,    8,    8,    7,
 
-       10,   10,   10,   10,   10,   10,   10,   10,   10,   10,
-       10,   10,   10,   10,   10,   10,   10,   10,   10,   10,
-       10,   10,    1,    1,    1,    1,    1,    1,    1,    1,
+        8,    7,    7,    7,    8,    7,    7,    7,    8,    8,
+        8,    7,    7,    8,    7,    7,    8,    7,    7,    7,
+        7,    7,    1,    1,    1,    1,    1,    1,    1,    1,
         1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
         1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
         1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
@@ -407,41 +407,39 @@ static yyconst flex_int32_t yy_ec[256] =
         1,    1,    1,    1,    1
     } ;
 
-static yyconst flex_int32_t yy_meta[11] =
+static yyconst flex_int32_t yy_meta[9] =
     {   0,
-        1,    2,    2,    1,    1,    3,    1,    1,    3,    3
+        1,    1,    1,    2,    1,    1,    3,    4
     } ;
 
-static yyconst flex_int16_t yy_base[30] =
+static yyconst flex_int16_t yy_base[27] =
     {   0,
-        0,    2,    6,    0,   32,   33,   33,   33,    0,    0,
-       33,   33,   23,   10,    0,    0,   27,   20,    0,    0,
-       25,   33,   18,   33,   33,   19,   24,   15,   22
+       21,   20,    0,    0,   25,   28,   18,   28,   28,    2,
+       17,   16,   15,   28,   14,   13,   12,   10,    0,    1,
+        0,   28,   28,    8,   10,   13
     } ;
 
-static yyconst flex_int16_t yy_def[30] =
+static yyconst flex_int16_t yy_def[27] =
     {   0,
-       26,   26,   25,    3,   25,   25,   25,   25,   27,   27,
-       25,   25,   25,   25,   28,   27,   29,   25,   14,   28,
-       29,   25,   25,   25,    0,   25,   25,   25,   25
+       24,   24,   24,    3,   23,   23,   23,   23,   23,   23,
+       23,   23,   23,   23,   23,   23,   23,   23,   25,   23,
+       26,   23,    0,   23,   23,   23
     } ;
 
-static yyconst flex_int16_t yy_nxt[44] =
+static yyconst flex_int16_t yy_nxt[37] =
     {   0,
-       25,   25,    7,    8,    7,    8,    6,    9,   10,   11,
-       12,    6,    6,   13,   14,   15,   18,   20,   19,    6,
-        6,    6,   21,   21,   21,   16,   24,   22,   23,   22,
-       17,   25,    5,   25,   25,   25,   25,   25,   25,   25,
-       25,   25,   25
+       23,    8,    9,   21,    8,   10,   12,   11,    6,    6,
+        6,    6,   20,   20,   22,   19,   22,   18,   17,   16,
+       15,   14,   13,   11,   23,    7,    7,    5,   23,   23,
+       23,   23,   23,   23,   23,   23
     } ;
 
-static yyconst flex_int16_t yy_chk[44] =
+static yyconst flex_int16_t yy_chk[37] =
     {   0,
-        0,    0,    1,    1,    2,    2,    3,    3,    3,    3,
-        3,    3,    3,    3,    3,    3,   14,   28,   14,   26,
-       26,   26,   29,   29,   29,   27,   23,   21,   18,   17,
-       13,    5,   25,   25,   25,   25,   25,   25,   25,   25,
-       25,   25,   25
+        0,    3,    3,   20,    3,    3,   10,   10,   24,   24,
+       24,   24,   25,   25,   26,   18,   26,   17,   16,   15,
+       13,   12,   11,    7,    5,    2,    1,   23,   23,   23,
+       23,   23,   23,   23,   23,   23
     } ;
 
 static yy_state_type yy_last_accepting_state;
@@ -458,15 +456,16 @@ int yy_flex_debug = 0;
 #define YY_MORE_ADJ 0
 #define YY_RESTORE_YY_MORE_OFFSET
 char *yytext;
-#line 1 "EjercicioParentesis.l"
-#line 2 "EjercicioParentesis.l"
-	int cont = 0;
-	int maxAnidamiento = 0;
+#line 1 "Ejercicio1303.l"
+#line 2 "Ejercicio1303.l"
+	#include<stdio.h>    
+	float nota = 0;
+	int lineas = 0;
 
-#line 467 "lex.yy.c"
+#line 466 "lex.yy.c"
 
 #define INITIAL 0
-#define PARENTESIS 1
+#define linea 1
 
 #ifndef YY_NO_UNISTD_H
 /* Special case for "unistd.h", since it is non-ANSI. We include it way
@@ -646,7 +645,8 @@ YY_DECL
 	register char *yy_cp, *yy_bp;
 	register int yy_act;
     
-#line 6 "EjercicioParentesis.l"
+#line 10 "Ejercicio1303.l"
+
 
 #line 652 "lex.yy.c"
 
@@ -701,13 +701,13 @@ yy_match:
 			while ( yy_chk[yy_base[yy_current_state] + yy_c] != yy_current_state )
 				{
 				yy_current_state = (int) yy_def[yy_current_state];
-				if ( yy_current_state >= 26 )
+				if ( yy_current_state >= 24 )
 					yy_c = yy_meta[(unsigned int) yy_c];
 				}
 			yy_current_state = yy_nxt[yy_base[yy_current_state] + (unsigned int) yy_c];
 			++yy_cp;
 			}
-		while ( yy_base[yy_current_state] != 33 );
+		while ( yy_base[yy_current_state] != 28 );
 
 yy_find_action:
 		yy_act = yy_accept[yy_current_state];
@@ -733,56 +733,33 @@ do_action:	/* This label is used only to access EOF actions. */
 
 case 1:
 YY_RULE_SETUP
-#line 7 "EjercicioParentesis.l"
-{printf("<id>");}
+#line 12 "Ejercicio1303.l"
+{}
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
-#line 8 "EjercicioParentesis.l"
-{printf("<real>");}
+#line 13 "Ejercicio1303.l"
+{nota = nota + atof(yytext); BEGIN(0); }
 	YY_BREAK
 case 3:
 /* rule 3 can match eol */
 YY_RULE_SETUP
-#line 9 "EjercicioParentesis.l"
+#line 14 "Ejercicio1303.l"
 {}
 	YY_BREAK
 case 4:
-*yy_cp = (yy_hold_char); /* undo effects of setting up yytext */
-(yy_c_buf_p) = yy_cp -= 1;
-YY_DO_BEFORE_ACTION; /* set up yytext again */
 YY_RULE_SETUP
-#line 10 "EjercicioParentesis.l"
-{}
+#line 15 "Ejercicio1303.l"
+{BEGIN(linea);}
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 11 "EjercicioParentesis.l"
-{cont++; if (cont > maxAnidamiento) maxAnidamiento = cont;}
-	YY_BREAK
-case 6:
-YY_RULE_SETUP
-#line 12 "EjercicioParentesis.l"
-{cont--; if(cont == 0) BEGIN(0);}
-	YY_BREAK
-case 7:
-YY_RULE_SETUP
-#line 13 "EjercicioParentesis.l"
-{cont++; BEGIN(PARENTESIS); maxAnidamiento = cont;}
-	YY_BREAK
-case 8:
-YY_RULE_SETUP
-#line 14 "EjercicioParentesis.l"
-{printf("Error: %s\n",yytext);}
-	YY_BREAK
-case 9:
-YY_RULE_SETUP
-#line 15 "EjercicioParentesis.l"
+#line 16 "Ejercicio1303.l"
 ECHO;
 	YY_BREAK
-#line 784 "lex.yy.c"
+#line 761 "lex.yy.c"
 case YY_STATE_EOF(INITIAL):
-case YY_STATE_EOF(PARENTESIS):
+case YY_STATE_EOF(linea):
 	yyterminate();
 
 	case YY_END_OF_BUFFER:
@@ -1073,7 +1050,7 @@ static int yy_get_next_buffer (void)
 		while ( yy_chk[yy_base[yy_current_state] + yy_c] != yy_current_state )
 			{
 			yy_current_state = (int) yy_def[yy_current_state];
-			if ( yy_current_state >= 26 )
+			if ( yy_current_state >= 24 )
 				yy_c = yy_meta[(unsigned int) yy_c];
 			}
 		yy_current_state = yy_nxt[yy_base[yy_current_state] + (unsigned int) yy_c];
@@ -1101,11 +1078,11 @@ static int yy_get_next_buffer (void)
 	while ( yy_chk[yy_base[yy_current_state] + yy_c] != yy_current_state )
 		{
 		yy_current_state = (int) yy_def[yy_current_state];
-		if ( yy_current_state >= 26 )
+		if ( yy_current_state >= 24 )
 			yy_c = yy_meta[(unsigned int) yy_c];
 		}
 	yy_current_state = yy_nxt[yy_base[yy_current_state] + (unsigned int) yy_c];
-	yy_is_jam = (yy_current_state == 25);
+	yy_is_jam = (yy_current_state == 23);
 
 	return yy_is_jam ? 0 : yy_current_state;
 }
@@ -1778,18 +1755,13 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 15 "EjercicioParentesis.l"
+#line 16 "Ejercicio1303.l"
 
 
-int main() {
+int main(void) {
 	yylex();
 	
-	if (cont == 0) {
-		printf("Parentesis balanceados!\n");
-	} else {
-		printf("Parentesis no balanceados\n");
-	}
+	printf("Nota media: %f\n",nota);
 	
-	printf("Maximo numero de anidamientos: %d\n", maxAnidamiento);
 	return 0;
 }
