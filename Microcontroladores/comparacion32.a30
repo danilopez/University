@@ -49,19 +49,15 @@ inicio:
 		FCLR C
 		FCLR S
 		BTST 15,R3
-		JC	negativo
 		JZ  positivo
-		
-negativo:
-		FCLR Z
-		FCLR C
-		FCLR S
+; Es negativo		
+
 		BTST 15,R2
 		JC iguales
-		JZ resultadoymayor
+		JMP final
 
 positivo:
-			FCLR Z
+		FCLR Z
 		FCLR C
 		FCLR S
 		BTST 15,R2
@@ -69,7 +65,7 @@ positivo:
 		JZ iguales
 
 resultadoymayor:
-			FCLR Z
+		FCLR Z
 		FCLR C
 		FCLR S
 		FSET S
