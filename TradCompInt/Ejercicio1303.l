@@ -1,18 +1,17 @@
 %{
 	#include<stdio.h>    
-	float nota = 0;
+	float notas = 0.0;
 	int lineas = 0;
 %}
 
 DNI		[0-9]{8,8}[a-zA-Z]
-Convocatoria ["Diciembre""Febrero""Junio"]
-%START linea
+MES 	["Diciembre""Febrero""Junio"]
+NOTA	[0-9]("."[0-9])?
+%START primero
+%START segundo
 %%
 
-<linea>" "					{}
-<linea>[0-9]("."[0-9])?		{nota = nota + atof(yytext); BEGIN(0); }
-<linea>[.\n]				{}
-{DNI}" "{Convocatoria}		{BEGIN(linea);}
+{DNI}		{BEGIN(linea);}
 %%
 int main(void) {
 	yylex();
