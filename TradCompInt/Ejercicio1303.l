@@ -10,8 +10,9 @@ NOTA	[0-9]("."[0-9])?
 %START primero
 %START segundo
 %%
-
-{DNI}		{BEGIN(linea);}
+<primero>" "{MES}		{BEGIN(segundo);} /* Sigue bien */
+<segundo>" "{NOTA}\n	{nota = nota + atof(yytext); linea = linea++; BEGIN(0);}
+{DNI}				{BEGIN(primero);} /* Empieza bien */
 %%
 int main(void) {
 	yylex();
