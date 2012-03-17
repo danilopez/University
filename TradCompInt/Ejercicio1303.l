@@ -14,8 +14,7 @@ NOTA	[0-9]+(\.[0-9])?
 <segundo>{NOTA}		{nueva_nota = atof(yytext); BEGIN(tercero);}
 <tercero>\n			{notas = notas + nueva_nota; lineas = lineas++; BEGIN(0);}
 <tercero><<EOF>>	{notas = notas + nueva_nota; lineas = lineas++; BEGIN(0);}
-<tercero>.*			{printf("Error en la linea %d: No deberia haber nada despues de la nota\n",lineas+1,notas);}
-<segundo>.*			{printf("Error en la linea %d: La convocatoria es incorrecta\n",lineas+1); }
+<segundo>.+		{printf("Error en la linea %d: La convocatoria es incorrecta\n",lineas+1); BEGIN(0); }
 {DNI}				{BEGIN(primero);} /* Empieza bien */
 %%
 int main(void) {
