@@ -1,22 +1,15 @@
-%{
-	char c;
-	int i = 0;
-%}
-
-PALABRA		[^ \n\t]
-
+%%
+[^ \n\t]*	{ invertir(yytext,yyleng); }
 %%
 
-{PALABRA}	{
-				for (i = 0; i < yyleng/2; i++) {
-					c = yytext[i];
-					yytext[i] = yytext[yyleng-1-i];
-					yytext[yyleng-1-i] = yytext[i];
-				}
-			}
-.			{}
-\n			{}
-%%
-int main () {
+void invertir(char *cadena, int longitud) {
+	char aux;
+	int i;
 	
+	for (i = 0; i < (longitud/2); i++) {
+		aux = cadena[i];
+		cadena[i] = cadena[longitud-1-i];
+		cadena[longitud-1-i] = aux;
+	}
+	ECHO;
 }
